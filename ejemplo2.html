@@ -37,11 +37,11 @@ function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     scene = new THREE.Scene();
-    cubo(0, 0, 0,0, 0, 0, 'Basic', 'green', true);
+    cubo(0, 0, 0,0, 0, 0, 'Basic', 'blue', true);
     cube.position.set(0, 0, 2);
     cubo(0, 0, 0, 0,0, 0, 'Basic', 'green', true);
     cube.position.set(0, 2, 0);
-    cubo(0, 0, 0, 0,0, 0, 'Basic', 'green', true);
+    cubo(0, 0, 0, 0,0, 0, 'Basic', 'red', true);
     cube.position.set(2, 0, 0);
     const axesHelper = new THREE.AxesHelper( 10 );
     scene.add(axesHelper);
