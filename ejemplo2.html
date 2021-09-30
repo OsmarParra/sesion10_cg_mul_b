@@ -29,7 +29,8 @@ function cubo(x, y, z, px, py, pz, material, color, wf){
     }
     cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
-    cube.position.set(px, py, pz);   
+    cube.position.set(px, py, pz);
+    
     return cube;
 }
 function init() {
@@ -37,24 +38,46 @@ function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     scene = new THREE.Scene();
-    cubo(0, 0, 0, 0,0, 0, 'Basic', 'red', false);
-    cube.position.set(2, 0, 0); 
-    cubo(0, 0, 0, 0,0, 0, 'Basic', 'green', false);
-    cube.position.set(0, 2, 0);
-    cubo(0, 0, 0,0, 0, 0, 'Basic', 'blue', false);
-    cube.position.set(0, 0, 2);
+    var arrCube = [];
+    var t = 2.2;
+    for (var i = 0; i < 3; i++){
+        d=t*1.05
+        rotar= Math.PI/2
+        arrCube.push(cubo(t, t, t,0,0,0, 'Basic',(i==0 ? 'red':i==1 ? 'green':'blue'), false));
+        arrCube[i].geometry.translate((i==0)*d,(i==1)*d,(i==2)*d)
+        //arrCube[i].geometry.rotate((i==0)(rotar),(i==1)(rotar),(i==2)*(rotar))
+        arrCube[i].geometry.rotateZ((i==0)*(rotar))
+        arrCube[i].geometry.rotateX((i==1)*(rotar))
+        arrCube[i].geometry.rotateY((i==2)*(rotar))
+}
+
     const axesHelper = new THREE.AxesHelper( 10 );
     scene.add(axesHelper);
 
-    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.set(6,6,6);
-    camera.lookAt(cube.position);
+    camera = new THREE.PerspectiveCamera(115, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(6, 6, 6);
+    camera.lookAt(arrCube[2].position);
 
     clock = new THREE.Clock();
     window.addEventListener('resize', onWindowResize, false);
 }
 
 var dir = 1;
+
+function animate() {
+    requestAnimationFrame(animate);
+    var delta = clock.getDelta();
+    mesh.rotation.x += delta * 0.5;
+    mesh.rotation.y += delta * 2;
+    mesh.position.x += dir * delta;
+
+    if (mesh.position.x > 2) {
+        dir = -1;
+    } else if (mesh.position.x < -2) {
+        dir = 1;
+    }
+    renderer.render(scene, camera);
+}
 
 function onWindowResize() {
     windowHalfX = window.innerWidth / 2;
@@ -66,6 +89,7 @@ function onWindowResize() {
 }
 init();
 renderer.render(scene,camera);
+///animate();
 </script >
 </body>
 </html>
